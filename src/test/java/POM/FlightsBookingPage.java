@@ -26,4 +26,12 @@ public class FlightsBookingPage {
         return driver.findElement(By.id("btnclosepaxoption"));
     }
 
+    public WebElement fromCity(WebDriver driver){
+        return driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_originStation1_CTXT"));
+    }
+
+    public WebElement toCity(WebDriver driver){
+        return driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_destinationStation1_CTXT"));
+    }
+
 }

@@ -14,23 +14,17 @@ public class BaseTest {
 
     @BeforeSuite
     public void beforeSuite(){
-        System.out.println("Before Suite");
         driver = driverManager.launchBrowser("Chrome");
     }
 
     @BeforeMethod
-    public void beforeMethod(){
-        System.out.println("Before Method");
-    }
+    public void beforeMethod(){}
 
     @AfterMethod
-    public void afterMethod(){
-        System.out.println("After Method");
-    }
+    public void afterMethod(){}
 
     @AfterSuite
     public void afterSuite(){
-        System.out.println("After Suite");
         driverManager.closeBrowser();
     }
 }
