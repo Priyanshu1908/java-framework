@@ -1,13 +1,13 @@
-package Tests;
+package tests;
 
-import POM.WebPage;
+import POM.GoogleWebPage;
 import org.testng.annotations.Test;
 
 @Test
 public class WebTest {
 
     public void webTest(){
-        WebPage test = new WebPage();
+        GoogleWebPage test = new GoogleWebPage();
         test.navigateToUrl();
         test.searchText();
         test.closeBrowser();
