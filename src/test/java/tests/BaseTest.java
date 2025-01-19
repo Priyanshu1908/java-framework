@@ -7,24 +7,29 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import java.time.Duration;
+
 public class BaseTest {
 
-    WebDriver driver;
+    public WebDriver driver;
     DriverManager driverManager = new DriverManager();
 
     @BeforeSuite
-    public void beforeSuite(){
+    public void beforeSuite() {
         driver = driverManager.launchBrowser("Chrome");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
     @BeforeMethod
-    public void beforeMethod(){}
+    public void beforeMethod() {
+    }
 
     @AfterMethod
-    public void afterMethod(){}
+    public void afterMethod() {
+    }
 
     @AfterSuite
-    public void afterSuite(){
+    public void afterSuite() {
         driverManager.closeBrowser();
     }
 }
