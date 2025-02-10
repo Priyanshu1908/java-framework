@@ -1,4 +1,4 @@
-package POM;
+package com.priyanshu.data.pom.flights;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
