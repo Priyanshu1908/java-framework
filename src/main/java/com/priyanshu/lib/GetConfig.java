@@ -1,4 +1,4 @@
-package lib;
+package com.priyanshu.lib;
 
 import java.util.Properties;
 
