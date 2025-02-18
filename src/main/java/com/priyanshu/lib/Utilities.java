@@ -1,6 +1,8 @@
 package com.priyanshu.lib;
 
 import com.google.common.collect.Iterables;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.priyanshu.model.Browser;
 import com.priyanshu.model.TestStatus;
 import com.priyanshu.model.TestType;
@@ -17,6 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,8 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -116,7 +119,7 @@ public class Utilities {
                 return "Not found";
             }
         }
-        return SystemUtils.JAVA_CLASS_PATH.split(name + "_")[1].split(".jar")[0];
+        return SystemUtils.JAVA_CLASS_PATH.split(name + "-")[1].split(".jar")[0];
     }
 
     public static String GetFrameworkPath(){
@@ -175,5 +178,33 @@ public class Utilities {
 
     public interface Callback{
         void call() throws SQLException;
+    }
+
+    public static void generateJSONReport(List<TestReport> reports, String outputFile, String startTime){
+        int passedCount = 0, failedCount = 0, skippedCount = 0;
+
+        for(TestReport report : reports){
+            if(report.TestData.TestCaseStatus.toString().equalsIgnoreCase("PASSED"))
+                passedCount++;
+            else if (report.TestData.TestCaseStatus.toString().equalsIgnoreCase("FAILED"))
+                failedCount++;
+            else if (report.TestData.TestCaseStatus.toString().equalsIgnoreCase("SKIPPED"))
+                skippedCount++;
+        }
+
+        Map<String, Object> jsonData = new LinkedHashMap<>();
+        jsonData.put("Total", (passedCount + failedCount + skippedCount));
+        jsonData.put("Passed",passedCount);
+        jsonData.put("Failed",failedCount);
+        jsonData.put("Skipped",skippedCount);
+        jsonData.put("Start Time", startTime);
+        jsonData.put("End Time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try(FileWriter jsonFile = new FileWriter(outputFile)) {
+            gson.toJson(jsonData,jsonFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

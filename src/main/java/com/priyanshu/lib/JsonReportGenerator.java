@@ -31,7 +31,7 @@ public class JsonReportGenerator implements IReportGenerator {
     public void RenderAndSave() throws IOException {
         Map<String, Object> testDataParameters = new LinkedHashMap<>();
 
-        testDataParameters.put("AutomationFramework", "Torchbearer Java Framework (V" + _testReport.TestData.TestToolVersion + ")");
+        testDataParameters.put("AutomationFramework", "Java Framework (V" + _testReport.TestData.TestToolVersion + ")");
         testDataParameters.put("TechnologyUsed", "Selenium " + _testReport.TestData.SeleniumVersion + " (UI), "
                 + "RestAssured " + _testReport.TestData.RestSharpVersion + " (API)");
         testDataParameters.put("Browser", IsWebTest(_testReport.TestData) ? _testReport.TestData.Browser.toString() : "-");

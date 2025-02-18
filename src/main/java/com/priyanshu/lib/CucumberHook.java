@@ -3,6 +3,8 @@ package com.priyanshu.lib;
 import io.cucumber.java.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 public class CucumberHook {
     private static BaseTest baseTest;
 
@@ -10,7 +12,7 @@ public class CucumberHook {
     public static void beforeAll(){}
 
     @AfterAll
-    public static void afterAll(){
+    public static void afterAll() throws IOException {
         baseTest.afterSuite();
     }
 
