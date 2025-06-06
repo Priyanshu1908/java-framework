@@ -5,7 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class FlightsBookingPage {
+    public final String Url = "https://rahulshettyacademy.com/dropdownsPractise/";
 
+    public FlightsBookingPage(WebDriver driver){
+        driver.navigate().to(Url);
+    }
     public WebElement currencyDropDownElement(WebDriver driver) {
 
         return driver.findElement(By.xpath("//div[@class=\"currency-dropdown\"]//select"));

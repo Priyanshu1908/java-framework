@@ -18,15 +18,13 @@ import static com.priyanshu.lib.Utilities.TryAssert;
 @Test(groups = "Web")
 public class HandleElementsTest extends BaseTest {
 
-    FlightsBookingPage page = new FlightsBookingPage();
-    public WebDriver driver = getDriver();
-    public final String Url = "https://rahulshettyacademy.com/dropdownsPractise/";
+    FlightsBookingPage page;
 
     @Test(priority = 1)
     public void currencyDropdownTest() {
 
-        driver.navigate().to(Url);
-        WebElement currencyDropdown = page.currencyDropDownElement(driver);
+        page = new FlightsBookingPage(Driver);
+        WebElement currencyDropdown = page.currencyDropDownElement(Driver);
         Select dropdown = new Select(currencyDropdown);
         dropdown.selectByIndex(3);
         String firstSelectedValue = dropdown.getFirstSelectedOption().getText();
@@ -37,7 +35,7 @@ public class HandleElementsTest extends BaseTest {
         dropdown.selectByVisibleText("INR");
         String thirdSelectedValue = dropdown.getFirstSelectedOption().getText();
         System.out.println("Third selected value of currency is: " + thirdSelectedValue);
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -52,18 +50,19 @@ public class HandleElementsTest extends BaseTest {
     @Test(priority = 2)
     public void passengerDropDownTest() {
 
+        page = new FlightsBookingPage(Driver);
         System.out.println("Select passengers count");
-        WebElement passengers = page.passengersDropDownElement(driver);
+        WebElement passengers = page.passengersDropDownElement(Driver);
         passengers.click();
-        WebElement adultCount = page.addAdultCount(driver);
+        WebElement adultCount = page.addAdultCount(Driver);
         for (int i = 0; i < 2; i++) {
             adultCount.click();
         }
-        WebElement doneButton = page.doneButton(driver);
+        WebElement doneButton = page.doneButton(Driver);
         doneButton.click();
         String updatedCount = passengers.getText();
         System.out.println("New passengers count is: " + updatedCount);
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -78,14 +77,15 @@ public class HandleElementsTest extends BaseTest {
     @Test(priority = 3)
     public void selectCities() {
 
-        WebElement fromCity = page.fromCity(driver);
+        page = new FlightsBookingPage(Driver);
+        WebElement fromCity = page.fromCity(Driver);
         fromCity.click();
-        driver.findElement(By.xpath("//a[contains(@text,'DEL')]")).click();
+        Driver.findElement(By.xpath("//a[contains(@text,'DEL')]")).click();
         System.out.println("From City: " + fromCity.getDomAttribute("value"));
-        driver.findElement(By.xpath("(//a[contains(@text,'BLR')])[2]")).click();
-        WebElement toCity = page.toCity(driver);
+        Driver.findElement(By.xpath("(//a[contains(@text,'BLR')])[2]")).click();
+        WebElement toCity = page.toCity(Driver);
         System.out.println("To City: " + toCity.getDomAttribute("value"));
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -100,9 +100,10 @@ public class HandleElementsTest extends BaseTest {
     @Test(priority = 4)
     public void selectFromDate() {
 
-        WebElement fromDate = driver.findElement(By.cssSelector("a[class*='ui-state-active']"));
+        page = new FlightsBookingPage(Driver);
+        WebElement fromDate = Driver.findElement(By.xpath("//label[contains(text(),'Depart date')] //parent::div //following-sibling::button"));
         fromDate.click();
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -117,9 +118,10 @@ public class HandleElementsTest extends BaseTest {
     @Test(priority = 5)
     public void selectCountry() {
 
-        WebElement countryValue = page.typeToSelectCountry(driver);
+        page = new FlightsBookingPage(Driver);
+        WebElement countryValue = page.typeToSelectCountry(Driver);
         countryValue.sendKeys("Ind");
-        List<WebElement> values = driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
+        List<WebElement> values = Driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
         for (WebElement value : values) {
             if (value.getText().equalsIgnoreCase("India")) {
                 Assert.assertEquals(value.getText(), "India");
@@ -128,7 +130,7 @@ public class HandleElementsTest extends BaseTest {
             }
         }
         System.out.println("Selected Country");
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -142,17 +144,19 @@ public class HandleElementsTest extends BaseTest {
 
     @Test(priority = 6)
     public void selectCheckboxes() {
-        WebElement seniorCitizenCheckbox = driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']"));
+
+        page = new FlightsBookingPage(Driver);
+        WebElement seniorCitizenCheckbox = Driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']"));
         System.out.println("Checkbox selected: " + seniorCitizenCheckbox.isSelected());
         Assert.assertFalse(seniorCitizenCheckbox.isSelected());
         seniorCitizenCheckbox.click();
         System.out.println("Checkbox selected: " + seniorCitizenCheckbox.isSelected());
         Assert.assertTrue(seniorCitizenCheckbox.isSelected());
 
-        List<WebElement> allCheckboxes = driver.findElements(By.cssSelector("input[type='checkbox']"));
+        List<WebElement> allCheckboxes = Driver.findElements(By.cssSelector("input[type='checkbox']"));
         System.out.println("Checkboxes count is: " + allCheckboxes.size());
         Assert.assertEquals(allCheckboxes.size(), 6);
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

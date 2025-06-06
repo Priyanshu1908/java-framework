@@ -20,7 +20,7 @@ public class AlertPracticePageTest extends BaseTest {
     public final String Url = "https://rahulshettyacademy.com/AutomationPractice/";
     @Test()
     public void enablePopup() throws InterruptedException {
-        WebDriver driver = getDriver();
+        WebDriver driver = Driver;
         getReport().TestData.Description = "Verify Alert";
         getReport().TestData.Url = Url;
         driver.navigate().to(Url);
@@ -40,7 +40,7 @@ public class AlertPracticePageTest extends BaseTest {
         Thread.sleep(2000);
         alert.dismiss();
 
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("Practice")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("Practice")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Alert";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

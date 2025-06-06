@@ -16,15 +16,16 @@ import static com.priyanshu.lib.Utilities.TryAssert;
 @Test(groups = "Web")
 public class GreenKartCartTest extends BaseTest {
 
+    @Test
     public void addVeggies() {
 
         getReport().TestData.Description = "Verify UI Element test";
-        VegCart vegCart = new VegCart(getDriver());
+        VegCart vegCart = new VegCart(Driver);
         getReport().TestData.Url = vegCart.Url;
 
         String[] veggies = {"Brocolli", "Cucumber", "Tomato"};
         List<String> vegToAdd = Arrays.asList(veggies);
-        List<WebElement> vegOptions = getDriver().findElements(By.className("product-name"));
+        List<WebElement> vegOptions = Driver.findElements(By.className("product-name"));
         int count = 0;
 
         for (int i = 0; i < vegOptions.size(); i++) {
@@ -36,17 +37,17 @@ public class GreenKartCartTest extends BaseTest {
             if (vegToAdd.contains(veg)) {
 
                 count++;
-                getDriver().findElements(By.xpath("//button[text()='ADD TO CART']")).get(i).click();
+                Driver.findElements(By.xpath("//button[text()='ADD TO CART']")).get(i).click();
 
                 if (count == vegToAdd.size()) {
                     break;
                 }
             }
         }
-        String totalItems =  getDriver().findElement(By.xpath("//td[text()='Items']  //following-sibling::td //strong")).getText();
+        String totalItems =  Driver.findElement(By.xpath("//td[text()='Items']  //following-sibling::td //strong")).getText();
         Assert.assertEquals(Integer.parseInt(totalItems),vegToAdd.size());
 
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getTitle().contains("GreenKart")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("GreenKart")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify GreenKart site";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

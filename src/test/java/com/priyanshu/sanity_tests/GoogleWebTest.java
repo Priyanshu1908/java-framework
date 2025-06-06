@@ -13,11 +13,11 @@ public class GoogleWebTest extends BaseTest {
 
     public void webTest() {
         getReport().TestData.Description = "Verify Web Test";
-        GoogleWebPage test = new GoogleWebPage(getDriver());
+        GoogleWebPage test = new GoogleWebPage(Driver);
         getReport().TestData.Url = test.Url;
         test.Search("test");
 
-        var status = TryAssert(() -> Assert.assertTrue(getDriver().getCurrentUrl().contains("google")));
+        var status = TryAssert(() -> Assert.assertTrue(Driver.getCurrentUrl().contains("google")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Web Test";
             Actual = "Url did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

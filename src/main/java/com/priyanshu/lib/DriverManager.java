@@ -15,9 +15,9 @@ import java.util.HashMap;
 
 public class DriverManager {
 
-    public static WebDriver GetDriver(Browser browser, boolean isHeadlessExecution) throws Exception {
+    public static WebDriver driver;
 
-        WebDriver driver;
+    public static WebDriver GetDriver(Browser browser, boolean isHeadlessExecution) throws Exception {
 
         switch (browser) {
             case Chrome:
@@ -40,62 +40,62 @@ public class DriverManager {
         return driver;
     }
 
-    public static ChromeOptions setChromeOptions(boolean isHeadlessExecution){
+    public static ChromeOptions setChromeOptions(boolean isHeadlessExecution) {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("prefs",setChromiumPreferences());
+        chromeOptions.setExperimentalOption("prefs", setChromiumPreferences());
         chromeOptions.addArguments("--start-maximized");
-        if(Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
+        if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
             chromeOptions.addArguments("--incognito");
-        if(isHeadlessExecution)
+        if (isHeadlessExecution)
             chromeOptions.addArguments("--headless");
         return chromeOptions;
     }
 
-    public static FirefoxOptions setFirefoxOptions(boolean isHeadlessExecution){
+    public static FirefoxOptions setFirefoxOptions(boolean isHeadlessExecution) {
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         var profile = new FirefoxProfile();
-        profile.setPreference("pdffjs.disabled",true);
+        profile.setPreference("pdffjs.disabled", true);
         profile.setPreference("browser.helperApps.nerverAsk.saveToDisk",
                 "application/download, application/octet-stream, text/csv, " +
                         "application/pdf,application/zip,image/png");
-        profile.setPreference("browser.download.folderList",2);
-        profile.setPreference("browser.download.dir",BaseTest.getConfig().getProperty("defaultDownloadPath"));
+        profile.setPreference("browser.download.folderList", 2);
+        profile.setPreference("browser.download.dir", BaseTest.getConfig().getProperty("defaultDownloadPath"));
         profile.setPreference("browser.download.useDownloadDir", true);
         profile.setPreference("dom.disable_open_during_load", Boolean.
                 parseBoolean(BaseTest.getConfig().getProperty("allowPopups")));
         firefoxOptions.setProfile(profile);
 //        firefoxOptions.addArguments("--width=1536","--height=864");
         firefoxOptions.addArguments("--kiosk");
-        if(Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
+        if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
             firefoxOptions.addArguments("--private");
-        if(isHeadlessExecution)
+        if (isHeadlessExecution)
             firefoxOptions.addArguments("--headless");
         return firefoxOptions;
     }
 
-    public static EdgeOptions setEdgeOptions(boolean isHeadlessExecution){
+    public static EdgeOptions setEdgeOptions(boolean isHeadlessExecution) {
         EdgeOptions edgeOptions = new EdgeOptions();
-        edgeOptions.setExperimentalOption("prefs",setChromiumPreferences());
+        edgeOptions.setExperimentalOption("prefs", setChromiumPreferences());
         edgeOptions.addArguments("--start-maximized");
-        if(Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
+        if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
             edgeOptions.addArguments("--inprivate");
-        if(isHeadlessExecution)
+        if (isHeadlessExecution)
             edgeOptions.addArguments("--headless");
         return edgeOptions;
     }
 
-    public static HashMap<Object,Object> setChromiumPreferences(){
+    public static HashMap<Object, Object> setChromiumPreferences() {
         var chromiumPreferences = new HashMap<>();
         chromiumPreferences.put("download.prompt_for_download", false);
         chromiumPreferences.put("download.default_diredctory", getDefaultDownloadPath());
-        if(Boolean.parseBoolean(BaseTest.getConfig().getProperty("allowPopups")))
-            chromiumPreferences.put("profile.managed_default_content_settings.popups",1);
+        if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("allowPopups")))
+            chromiumPreferences.put("profile.managed_default_content_settings.popups", 1);
         else
-            chromiumPreferences.put("profile.managed_default_content_settings.popup",2);
+            chromiumPreferences.put("profile.managed_default_content_settings.popup", 2);
         return chromiumPreferences;
     }
 
-    public static String getDefaultDownloadPath(){
+    public static String getDefaultDownloadPath() {
         var configPath = BaseTest.getConfig().getProperty("defaultDownloadPath");
         return !configPath.isEmpty() ? configPath : System.getProperty("user.home") + "/Downloads";
     }
