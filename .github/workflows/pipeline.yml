@@ -72,9 +72,9 @@ jobs:
           cache: maven
 
       - name: Run Tests
-        run: mvn test \
-          -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}" \
-          -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}" \
+        run: mvn test -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
+          -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}"
+          -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}"
           -Dheadless="${{ github.event.inputs.headless || 'unit'}}"
 
       - name: Upload Test Reports
