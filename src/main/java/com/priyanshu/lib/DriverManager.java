@@ -43,6 +43,7 @@ public class DriverManager {
     public static ChromeOptions setChromeOptions(boolean isHeadlessExecution) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", setChromiumPreferences());
+        chromeOptions.addArguments("--no-sandbox");
         chromeOptions.addArguments("--start-maximized");
         if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
             chromeOptions.addArguments("--incognito");
@@ -76,6 +77,7 @@ public class DriverManager {
     public static EdgeOptions setEdgeOptions(boolean isHeadlessExecution) {
         EdgeOptions edgeOptions = new EdgeOptions();
         edgeOptions.setExperimentalOption("prefs", setChromiumPreferences());
+        edgeOptions.addArguments("--no-sandbox");
         edgeOptions.addArguments("--start-maximized");
         if (Boolean.parseBoolean(BaseTest.getConfig().getProperty("enableIncognitoMode")))
             edgeOptions.addArguments("--inprivate");
