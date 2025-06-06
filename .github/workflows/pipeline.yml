@@ -24,11 +24,11 @@ on:
       testGroup:
         description: "Select the test group to execute"
         required: true
-        default: "unit"
+        default: "Web"
         type: choice
         options:
-          - unit
-          - sanity
+          - Unit
+          - Sanity
           - Web
           - Api
           - WebApi
@@ -73,7 +73,7 @@ jobs:
 
       - name: Run Tests
         run: mvn test \
-          -Dgroups="${{ github.event.inputs.testGroup || 'unit'}}" \
+          -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}" \
           -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}" \
           -Dheadless="${{ github.event.inputs.headless || 'unit'}}"
 
