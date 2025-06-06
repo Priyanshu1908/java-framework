@@ -1,4 +1,4 @@
-package com.priyanshu.data.pom.api;
+package com.priyanshu.data.api;
 
 import com.priyanshu.sanity_tests.MapsRestApiTest;
 
