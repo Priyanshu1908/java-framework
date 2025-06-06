@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 public class BaseTest {
 
+    public WebDriver Driver;
     public static SoftAssert Assert = new SoftAssert();
     HashMap<String, Integer> testCount = new HashMap<>();
     protected Logger logger = Logger.getLogger(BaseTest.class.getName());
@@ -34,14 +35,6 @@ public class BaseTest {
     }
 
     public static final Map<String, WebDriver> driverMap = new ConcurrentHashMap<>();
-
-    public WebDriver getDriver() {
-        return driverMap.get(Thread.currentThread().getName());
-    }
-
-    public void setDriver(WebDriver driver) {
-        driverMap.put(Thread.currentThread().getName(), driver);
-    }
 
     private String className;
     private static final String FS = File.separator;
@@ -125,7 +118,7 @@ public class BaseTest {
         testData.ExecutedOn = Utilities.getHostName();
 
         if (Arrays.asList((TestType.Web), TestType.WebApi).contains(testType)) {
-            setDriver(DriverManager.GetDriver(Utilities.getBrowser(browser), headless));
+            Driver = DriverManager.GetDriver(Utilities.getBrowser(browser), headless);
             testData.IsHeadless = headless;
         }
     }
@@ -135,7 +128,7 @@ public class BaseTest {
 //        if(getReport().TestData.TestManagementData == null){
 //            getReport().TestData.TestManagementData = testManagement.GetData(getReport());
 //        }
-        if (Arrays.asList(TestType.Web, TestType.WebApi).contains(testType) && getDriver() != null) getDriver().quit();
+        if (Arrays.asList(TestType.Web, TestType.WebApi).contains(testType) && Driver != null) Driver.quit();
         logger.info("Test finished");
         if (Arrays.asList(TestType.Api, TestType.WebApi).contains(testType)) apiReportGenerator.RenderAndSave();
         pdfReportGenerator.RenderAndSave();
@@ -165,7 +158,7 @@ public class BaseTest {
     }
 
     public String GetScreenshot() {
-        return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BASE64);
+        return ((TakesScreenshot) Driver).getScreenshotAs(OutputType.BASE64);
     }
 
     public String ZipResults() {

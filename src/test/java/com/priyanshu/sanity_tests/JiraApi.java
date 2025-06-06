@@ -1,6 +1,6 @@
 package com.priyanshu.sanity_tests;
 
-import com.priyanshu.data.pom.api.PayLoad;
+import com.priyanshu.data.api.PayLoad;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.testng.annotations.Test;

@@ -1,6 +1,6 @@
 package com.priyanshu.sanity_tests;
 
-import com.priyanshu.data.pom.api.PayLoad;
+import com.priyanshu.data.api.PayLoad;
 import com.priyanshu.lib.ApiReportGenerator;
 import com.priyanshu.lib.BaseTest;
 import com.priyanshu.model.Api;
