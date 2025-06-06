@@ -72,7 +72,7 @@ jobs:
           cache: maven
 
       - name: Run Tests
-        run: mvn test
+        run: mvn test \
           -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}" \
           -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}" \
           -Dheadless="${{ github.event.inputs.headless || 'unit'}}"
