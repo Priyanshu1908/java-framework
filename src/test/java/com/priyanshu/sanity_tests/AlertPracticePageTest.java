@@ -11,13 +11,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Objects;
 
 import static com.priyanshu.lib.Utilities.TryAssert;
 
-@Test(groups = "Web")
+@Test(groups = {"Web", "Sanity"})
 public class AlertPracticePageTest extends BaseTest {
 
     public final String Url = "https://rahulshettyacademy.com/AutomationPractice/";
+
     @Test()
     public void enablePopup() throws InterruptedException {
         WebDriver driver = Driver;
@@ -40,7 +42,7 @@ public class AlertPracticePageTest extends BaseTest {
         Thread.sleep(2000);
         alert.dismiss();
 
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("Practice")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("Practice")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Alert";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

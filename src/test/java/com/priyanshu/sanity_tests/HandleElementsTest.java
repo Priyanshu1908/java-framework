@@ -5,13 +5,11 @@ import com.priyanshu.lib.BaseTest;
 import com.priyanshu.model.TestEvidence;
 import com.priyanshu.model.TestStatus;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.util.List;
+import java.util.Objects;
 
 import static com.priyanshu.lib.Utilities.TryAssert;
 
@@ -35,7 +33,7 @@ public class HandleElementsTest extends BaseTest {
         dropdown.selectByVisibleText("INR");
         String thirdSelectedValue = dropdown.getFirstSelectedOption().getText();
         System.out.println("Third selected value of currency is: " + thirdSelectedValue);
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -62,7 +60,7 @@ public class HandleElementsTest extends BaseTest {
         doneButton.click();
         String updatedCount = passengers.getText();
         System.out.println("New passengers count is: " + updatedCount);
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -85,7 +83,7 @@ public class HandleElementsTest extends BaseTest {
         Driver.findElement(By.xpath("(//a[contains(@text,'BLR')])[2]")).click();
         WebElement toCity = page.toCity(Driver);
         System.out.println("To City: " + toCity.getDomAttribute("value"));
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -103,7 +101,7 @@ public class HandleElementsTest extends BaseTest {
         page = new FlightsBookingPage(Driver);
         WebElement fromDate = Driver.findElement(By.xpath("//label[contains(text(),'Depart date')] //parent::div //following-sibling::button"));
         fromDate.click();
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -130,7 +128,7 @@ public class HandleElementsTest extends BaseTest {
             }
         }
         System.out.println("Selected Country");
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
@@ -156,7 +154,7 @@ public class HandleElementsTest extends BaseTest {
         List<WebElement> allCheckboxes = Driver.findElements(By.cssSelector("input[type='checkbox']"));
         System.out.println("Checkboxes count is: " + allCheckboxes.size());
         Assert.assertEquals(allCheckboxes.size(), 6);
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("QAClickJet")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
