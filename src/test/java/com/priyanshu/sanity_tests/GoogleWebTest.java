@@ -6,9 +6,11 @@ import com.priyanshu.model.TestEvidence;
 import com.priyanshu.model.TestStatus;
 import org.testng.annotations.Test;
 
+import java.util.Objects;
+
 import static com.priyanshu.lib.Utilities.TryAssert;
 
-@Test(groups = "Web")
+@Test(groups = {"Web", "Sanity"})
 public class GoogleWebTest extends BaseTest {
 
     public void webTest() {
@@ -17,7 +19,7 @@ public class GoogleWebTest extends BaseTest {
         getReport().TestData.Url = test.Url;
         test.Search("test");
 
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getCurrentUrl().contains("google")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getCurrentUrl()).contains("google")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify Web Test";
             Actual = "Url did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

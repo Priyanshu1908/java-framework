@@ -7,13 +7,12 @@ import com.priyanshu.model.TestStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Objects;
 import static com.priyanshu.lib.Utilities.TryAssert;
 
-@Test(groups = "Web")
+@Test(groups = {"Web","Sanity"})
 public class GreenKartCartTest extends BaseTest {
 
     @Test
@@ -47,7 +46,7 @@ public class GreenKartCartTest extends BaseTest {
         String totalItems =  Driver.findElement(By.xpath("//td[text()='Items']  //following-sibling::td //strong")).getText();
         Assert.assertEquals(Integer.parseInt(totalItems),vegToAdd.size());
 
-        var status = TryAssert(() -> Assert.assertTrue(Driver.getTitle().contains("GreenKart")));
+        var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("GreenKart")));
         getReport().AddEvidence(new TestEvidence() {{
             Expected = "Verify GreenKart site";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";

@@ -18,7 +18,7 @@ import static com.priyanshu.lib.Utilities.TryAssert;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-@Test(groups = "Api")
+@Test(groups = {"Api", "Sanity"})
 public class MapsRestApiTest extends BaseTest {
 
     private static final String Url = "https://rahulshettyacademy.com";
@@ -41,7 +41,7 @@ public class MapsRestApiTest extends BaseTest {
         System.out.println(placeID);
 
         //Update a place
-        String resp = given().queryParam("key", "qaclick123").header("Content-Type", "application/json")
+        given().queryParam("key", "qaclick123").header("Content-Type", "application/json")
                 .body(PayLoad.updatePlace()).when().put("/maps/api/place/update/json")
                 .then().assertThat().statusCode(200).body("msg", equalTo("Address successfully updated"))
                 .extract().response().asString();

@@ -41,6 +41,7 @@ public class BaseTest {
     public static final String USER_DIR = System.getProperty("user.dir");
     public static final String RESOURCES = USER_DIR + FS + "src" + FS + "test" + FS + "resources" + FS;
     public static final String INPUT_DIR = RESOURCES + "Inputs" + FS;
+    public static final String CREDENTIALS_FILE_PATH = INPUT_DIR + "fibc" + FS + "credentials.json";
     public static final String ALM_DIR = INPUT_DIR + "TestManagement" + FS + "ALM" + FS;
     public static final String TARGET = USER_DIR + FS + "target" + FS;
     public static final String OUTPUTS = TARGET + "Outputs" + FS;
