@@ -15,28 +15,43 @@ import java.util.HashMap;
 
 public class DriverManager {
 
-    public static WebDriver driver;
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+//    public static WebDriver getDriver() {
+//        return driver.get();
+//    }
+
+    public static void setDriver(WebDriver driverInstance) {
+        driver.set(driverInstance);
+    }
+
+    public static void quitDriver() {
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
+        }
+    }
 
     public static WebDriver GetDriver(Browser browser, boolean isHeadlessExecution) throws Exception {
 
-        switch (browser) {
-            case Chrome:
+        WebDriver driver = switch (browser) {
+            case Chrome -> {
                 var chromeOptions = setChromeOptions(isHeadlessExecution);
-                driver = new ChromeDriver(chromeOptions);
-                break;
-            case Firefox:
+                yield new ChromeDriver(chromeOptions);
+            }
+            case Firefox -> {
                 var firefoxOptions = setFirefoxOptions(isHeadlessExecution);
-                driver = new FirefoxDriver(firefoxOptions);
-                break;
-            case Edge:
+                yield new FirefoxDriver(firefoxOptions);
+            }
+            case Edge -> {
                 var edgeOptions = setEdgeOptions(isHeadlessExecution);
-                driver = new EdgeDriver(edgeOptions);
-                break;
-            default:
-                throw new Exception("Browser not defined");
-        }
-        //driver.manage().window().maximize();
+                yield new EdgeDriver(edgeOptions);
+            }
+            default -> throw new Exception("Browser not defined");
+        };
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        setDriver(driver);
         return driver;
     }
 
