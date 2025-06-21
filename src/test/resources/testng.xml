@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Practice Suite">
+<suite name="Practice Suite" parallel="classes" thread-count="2">
     <test name="Test Basics 1">
         <classes>
             <class name="com.priyanshu.sanity_tests.GoogleWebTest"/>
+            <class name="com.priyanshu.sanity_tests.GreenKartCartTest"/>
+            <class name="com.priyanshu.sanity_tests.AlertPracticePageTest"/>
         </classes>
     </test> <!-- Test -->
+<!--    <test name="GroupTest">-->
+<!--        <groups>-->
+<!--            <run>-->
+<!--                <include name="Sanity"/>-->
+<!--            </run>-->
+<!--        </groups>-->
+<!--        <classes>-->
+<!--            <class name="com.priyanshu.sanity_tests.GoogleWebTest"/>-->
+<!--            <class name="com.priyanshu.sanity_tests.GreenKartCartTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
