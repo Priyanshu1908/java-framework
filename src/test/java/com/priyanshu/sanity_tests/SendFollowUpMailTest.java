@@ -20,7 +20,7 @@ import java.util.List;
 
 import static com.priyanshu.lib.Utilities.TryAssert;
 
-@Test(groups = {"Api"}, enabled = true)
+@Test(groups = {"Api"})
 public class SendFollowUpMailTest extends BaseTest {
 
     private static final String ATTACHMENT_FILE_PATH = INPUT_DIR + "fibc/FIBCBags.txt";
@@ -31,8 +31,8 @@ public class SendFollowUpMailTest extends BaseTest {
     String name;
     String from = "me";
     String subject = "Welcome to FIBC";
+    String replyBody;
     String bodyText = null;
-    String sentMessageID;
     String messageId = null;
     String threadId;
 
@@ -49,15 +49,23 @@ public class SendFollowUpMailTest extends BaseTest {
             for (EmailData emailData : emailList) {
                 to = emailData.getSendTo();
                 name = emailData.getName();
-                bodyText = defaultBodyText.replaceFirst("Name", name);
+                replyBody = defaultBodyText.replaceFirst("Name", name);
                 attachmentFile = new File(ATTACHMENT_FILE_PATH);
 
-                ListMessagesResponse response = service.users().messages().list("me").setLabelIds(Collections.singletonList("SENT")).setQ("to:" + to).setMaxResults(1L).execute();
+                ListMessagesResponse response = service.users().messages().list(from).setLabelIds(Collections.singletonList("SENT")).setQ("to:" + to).setMaxResults(1L).execute();
                 for (Message message : response.getMessages()) {
                     messageId = message.getId();
                     System.out.println("Message ID: " + messageId);
+                    Message originalMessage = service.users().messages()
+                            .get(from, messageId)
+                            .setFormat("full")
+                            .execute();
+                    String originalBody = inboxAssistant.getPlainTextFromMessage(originalMessage);
+                    bodyText = replyBody + "\n" +
+                            originalBody;
+                    System.out.println(bodyText);
                 }
-                Message message = service.users().messages().get("me", messageId).setFormat("metadata").execute();
+                Message message = service.users().messages().get(from, messageId).setFormat("metadata").execute();
                 threadId = message.getThreadId();
                 if (threadId.equalsIgnoreCase(messageId)) {
                     String messageId = message.getPayload().getHeaders().stream()
@@ -69,12 +77,12 @@ public class SendFollowUpMailTest extends BaseTest {
                     String replyTo = emailData.getSendTo();
                     String replySubject = "Re: " + subject;
 
-                    MimeMessage replyEmail = inboxAssistant.createReplyEmail(service, "me", replyTo, replySubject, bodyText, messageId);
-                    inboxAssistant.sendReply(service, "me", replyEmail, threadId);
+                    MimeMessage replyEmail = inboxAssistant.createReplyEmail(service, from, replyTo, replySubject, bodyText, messageId,attachmentFile);
+                    inboxAssistant.sendReply(service, from, replyEmail, threadId);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         getReport().TestData.Description = "Verify Followup Mail Test";
