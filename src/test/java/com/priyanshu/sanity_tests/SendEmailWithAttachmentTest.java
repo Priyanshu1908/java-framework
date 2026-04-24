@@ -19,7 +19,7 @@ import java.util.List;
 
 import static com.priyanshu.lib.Utilities.TryAssert;
 
-@Test(groups = {"Api"}, enabled = true)
+@Test(groups = {"Api"})
 public class SendEmailWithAttachmentTest extends BaseTest {
 
     private static final String ATTACHMENT_FILE_PATH = INPUT_DIR + "fibc/FIBCBags.txt";
@@ -50,16 +50,16 @@ public class SendEmailWithAttachmentTest extends BaseTest {
                 bodyText = defaultBodyText.replaceFirst("Name", name);
                 attachmentFile = new File(ATTACHMENT_FILE_PATH);
                 MimeMessage email = inboxAssistant.createEmailWithAttachment(to, from, subject, bodyText, attachmentFile);
-                sentMessageID = inboxAssistant.sendMessage(service, "me", email);
+                sentMessageID = inboxAssistant.sendMessage(service, from, email);
 
-                ListMessagesResponse response = service.users().messages().list("me").setLabelIds(Collections.singletonList("SENT")).setQ("to:" + to).setMaxResults(1L).execute();
+                ListMessagesResponse response = service.users().messages().list(from).setLabelIds(Collections.singletonList("SENT")).setQ("to:" + to).setMaxResults(1L).execute();
                 for (Message message : response.getMessages()) {
                     messageId = message.getId();
                     System.out.println("Message ID: " + messageId);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         getReport().TestData.Description = "Verify Send Intro Email Test";

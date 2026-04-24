@@ -10,6 +10,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Draft;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePart;
 import com.opencsv.CSVReader;
 import com.priyanshu.lib.model.EmailData;
 
@@ -22,6 +23,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -186,7 +188,7 @@ public class InboxAssistant {
     }
 
     public MimeMessage createReplyEmail(Gmail service, String userId, String to,
-                                               String subject, String bodyText, String messageId) throws Exception {
+                                               String subject, String bodyText, String messageId, File file) throws Exception {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
@@ -194,7 +196,22 @@ public class InboxAssistant {
         email.setFrom(new InternetAddress("me"));
         email.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(to));
         email.setSubject(subject);
-        email.setText(bodyText);
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setText(bodyText);
+        //email.setText(bodyText);
+        MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+        FileDataSource source = new FileDataSource(file);
+        attachmentBodyPart.setDataHandler(new DataHandler(source));
+        attachmentBodyPart.setFileName(file.getName());
+
+        // Create multipart email
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+        multipart.addBodyPart(attachmentBodyPart);
+
+        // Set the content
+        email.setContent(multipart);
 
         email.setHeader("In-Reply-To", messageId);
         email.setHeader("References", messageId);
@@ -214,5 +231,20 @@ public class InboxAssistant {
 
         Message sentMessage = service.users().messages().send(userId, message).execute();
         System.out.println("Replied! Message ID: " + sentMessage.getId());
+    }
+
+    public String getPlainTextFromMessage(Message message) throws Exception {
+        if (message.getPayload().getParts() != null) {
+            for (MessagePart part : message.getPayload().getParts()) {
+                if (part.getMimeType().equals("text/plain")) {
+                    byte[] bodyBytes = Base64.getDecoder().decode(part.getBody().getData());
+                    return new String(bodyBytes, StandardCharsets.UTF_8);
+                }
+            }
+        } else {
+            byte[] bodyBytes = Base64.getDecoder().decode(message.getPayload().getBody().getData());
+            return new String(bodyBytes, StandardCharsets.UTF_8);
+        }
+        return "";
     }
 }

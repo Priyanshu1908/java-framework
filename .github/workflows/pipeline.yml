@@ -71,14 +71,14 @@ jobs:
           java-version: '21'
           cache: maven
 
-#      - name: Run Tests
-#        run: mvn test -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
-#          -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}"
-#          -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}"
-#          -Dheadless="${{ github.event.inputs.headless || 'unit'}}"
+      - name: Run Tests
+        run: mvn test -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
+          -Dgroups="${{ github.event.inputs.testGroup || 'Web'}}"
+          -Dbrowser="${{ github.event.inputs.browser || 'chrome'}}"
+          -Dheadless="${{ github.event.inputs.headless || 'true'}}"
 
-#      - name: Upload Test Reports
-#        uses: actions/upload-artifact@v4.6.0
-#        with:
-#          name: Test-Reports
-#          path: ${{ github.workspace }}/target
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4.6.0
+        with:
+          name: Test-Reports
+          path: ${{ github.workspace }}/target

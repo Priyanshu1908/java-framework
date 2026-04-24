@@ -38,7 +38,7 @@ public class HandleElementsTest extends BaseTest {
             Expected = "Verify Currency dropdown";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate Currency Dropdown";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
@@ -62,10 +62,10 @@ public class HandleElementsTest extends BaseTest {
         System.out.println("New passengers count is: " + updatedCount);
         var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
-            Expected = "Verify Currency dropdown";
+            Expected = "Verify passengers count";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate passengers count";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
@@ -85,10 +85,10 @@ public class HandleElementsTest extends BaseTest {
         System.out.println("To City: " + toCity.getDomAttribute("value"));
         var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
-            Expected = "Verify Currency dropdown";
+            Expected = "Verify From and To City";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate Cities";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
@@ -103,10 +103,10 @@ public class HandleElementsTest extends BaseTest {
         fromDate.click();
         var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
-            Expected = "Verify Currency dropdown";
+            Expected = "Verify FromDate";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate FromDate";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
@@ -130,10 +130,10 @@ public class HandleElementsTest extends BaseTest {
         System.out.println("Selected Country");
         var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
-            Expected = "Verify Currency dropdown";
+            Expected = "Verify Country";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate country";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
@@ -156,10 +156,10 @@ public class HandleElementsTest extends BaseTest {
         Assert.assertEquals(allCheckboxes.size(), 6);
         var status = TryAssert(() -> Assert.assertTrue(Objects.requireNonNull(Driver.getTitle()).contains("QAClickJet")));
         getReport().AddEvidence(new TestEvidence() {{
-            Expected = "Verify Currency dropdown";
+            Expected = "Verify Checkbox";
             Actual = "Title did" + (status == TestStatus.Passed ? " " : " not ") + "contains String";
             StepStatus = status;
-            Details = "Validate Alert";
+            Details = "Validate checkbox";
             Screenshot = GetScreenshot();
             StepName = "Test web";
             TestType = com.priyanshu.model.TestType.Web;
